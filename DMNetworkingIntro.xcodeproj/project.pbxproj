@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F5A03EE2A8C46C10012299F /* DMError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5A03ED2A8C46C10012299F /* DMError.swift */; };
 		63485F4329E477DB00961EA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63485F4229E477DB00961EA6 /* AppDelegate.swift */; };
 		63485F4529E477DB00961EA6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63485F4429E477DB00961EA6 /* SceneDelegate.swift */; };
 		63485F4729E477DB00961EA6 /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63485F4629E477DB00961EA6 /* UsersViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F5A03ED2A8C46C10012299F /* DMError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMError.swift; sourceTree = "<group>"; };
 		63485F3F29E477DB00961EA6 /* DMNetworkingIntro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DMNetworkingIntro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63485F4229E477DB00961EA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63485F4429E477DB00961EA6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 		63485F5729E4797D00961EA6 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				1F5A03ED2A8C46C10012299F /* DMError.swift */,
 				63485F5E29E4800300961EA6 /* NetworkManager.swift */,
 			);
 			path = Managers;
@@ -187,6 +190,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F5A03EE2A8C46C10012299F /* DMError.swift in Sources */,
 				63485F4729E477DB00961EA6 /* UsersViewController.swift in Sources */,
 				63485F4329E477DB00961EA6 /* AppDelegate.swift in Sources */,
 				63485F6129E480AD00961EA6 /* User.swift in Sources */,
