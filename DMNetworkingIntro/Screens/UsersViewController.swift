@@ -75,8 +75,59 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func getUsers() {
         
-        NetworkManager.shared.delegate = self
-        NetworkManager.shared.getUsers()
-    
+        // 3.1 Modify the UsersViewController to use the completion closure instead of the NetworkManagerDelegate.
+        // Since we will not be using the NetworkManagerDlegate per instructions, we will comment the code below out
+        //NetworkManager.shared.delegate = self
+        
+        // Remeber, networkManager is our helper aka Manager. We are telling to fetch users (getUsers) and we're giving it an order to do something once thise users are fetch. Those orders/rules will appear in teh closure { }
+        // result is the actual vales we get back from fetching
+        NetworkManager.shared.getUsers { [weak self] result in
+            // in, meaning - Now let's check to see what happens after we get our rsults, do we succeed or get an error
+            // so let's hit the switch on result for BOTH a .success case and a .falure case as the switch must be exaustive
+            // since we are using DMError, our reult from fetching users will be of type Erorrr which already contains .success() and .failure() methods
+            switch result {
+                
+                // capture the list of users we got from this result success case by creating a let users constant
+            case .success(let listOfUsers):
+                // Now take the list of users we captured in listOfUsers form our success case and equal it to OUT var users variiable able
+                self?.users = listOfUsers
+                
+                // Let's make sure after this success case it will happen on the main thread as this had to do with the UI of the app
+                DispatchQueue.main.async {
+                    self?.usersTableView.reloadData()
+                }
+                // If we encounter an erro whiel fetching reults lets capture it with let captureError
+            case .failure(let captureError):
+                // Let's present that error with the function we created below and pass in the captureError constant we created above
+                self?.presentAlert(error: captureError)
+                
+                
+            }
+            
+        }
+        
     }
+        // 3.2 Add a function called presentAlert to the UsersViewController that accepts a DMError and presents a UIAlertController with that error. Call presentError if there's a failure.
+       // create the presentAlert function and give it a parameter that should be of type DMError
+        func presentAlert(error: DMError) {
+            // Make this present alert an actual UIAlertController so lets create a UIAlrtCOntroller object
+            // title added, meesage should be the actual rawalue of the error we recived and the style should be that of .alert
+            let presentAlertController = UIAlertController(title: "Whoop, there an error", message: error.rawValue, preferredStyle: .alert)
+            
+            // Let's get fancy and add an action to the alert so we can actually exit out of it
+            // This is like our okay" button to close out of the alert prompt
+            let thanksBatmanButton = UIAlertAction(title: "Thanks for catching that Batman", style: .default)
+            
+            // We created the alert and the alert acton button but now lets tie them together
+            // We'll use teh builtuin in .addAction method of the UIAlertController class
+            // pass in out thanksBatmanButton
+            presentAlertController.addAction(thanksBatmanButton)
+            
+            // Great we've created it, now we have to present it
+            present(presentAlertController, animated: true, completion: nil)
+            
+        }
+        
+    
+    
 }

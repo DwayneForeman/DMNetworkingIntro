@@ -37,9 +37,12 @@ class NetworkManager {
      This is a tricky function, so some starter code has been provided.
      */
     
-    
-    
-    func getUsers() {
+    // 2.1 Modify the getUsers function to accept a completion closure. The closure should accept a Result For the success case, the associated value for the result should be an array of User. For the failure case, the associated value should be a DMError.
+    // name teh completion handler "completion" :
+    // Use @escpaing as the completion handler is async meaning it will run AFTER the getUsers function and not WHILE
+    // In parenthees I added the adgument using the Result enmum that takes in < a_success, a_failure >
+    // Closure does NOT return so we I used -> Void
+    func getUsers(completion: @escaping (Result<[User], DMError>) -> Void) {
         
         // In this function we are
         /*
@@ -68,12 +71,22 @@ class NetworkManager {
             let url = URL(string: urlString)
             
             if url == nil {
+                // 2.2 Continue to modify getUsers to use the closure. For all failures, call the completion closure with the correct DMError. For a success, call the completion closure with the array of User.
+                // Using the completion handler if the function runs and there are is not a valid url per the description of the DM error enum
+                //  Declare the function as you normally would and pass in the parameters ()
+                // Within the parameters tap into the faulire method using dot notation and within the failure method pass in .invaludURL -  case invalidURL = "There was an issue connecting to the server."
+                completion(.failure(.invalidURL))
                 return
             }
             
             let task = URLSession.shared.dataTask(with: url!) { data, response, error in
                 // 3.3 If the error is not nil, break out of the function.
                 if error != nil {
+                    // 2.2 Continue to modify getUsers to use the closure. For all failures, call the completion closure with the correct DMError. For a success, call the completion closure with the array of User.
+                    // Using the completion handler if the function runs and there are is not a valid URL SESSION REQUEST per the description of the DM error enum
+                    //  Declare the function as you normally would and pass in the parameters ()
+                    // Within the parameters tap into the faulire method using dot notation and within the failure method pass in .unableToComplete -  case unableToComplete = "Unable to complete your request. Please check your internet connection."
+                    completion(.failure(.unableToComplete))
                     return
                 }
                 
@@ -95,14 +108,31 @@ class NetworkManager {
                         // EASY UNDERSTANDING FOR BELOW: We are usinf safeData amd turning it into a UserResponse object which has a data array propery of Users which we will tap into on the next line
                         let userResponse = try decoder.decode(UserResponse.self, from: safeData)
                         // 2. Now we are using the var delegate we created above which is of type NeworkManagerDelegate which we alsp created above whihc contains the usersrteieved function meaning, if you are hoing to be on tyoe NetworkManager Delegate you must have the usersReteived function. We created a var delegate of its type because we cannot tap into the actual protol its as it is a class and since we already know since it confirms to the NetworkManagerDelegate protocol that it would have the function we needed to use later down the line,, here.
-                        self.delegate?.usersRetrieved(userResponse.data)
                         // 3.4 Call the `delegate`'s `usersRetrieved` function, passing the `data` array from the decoded `UserResponse`.
+                        self.delegate?.usersRetrieved(userResponse.data)
+                        
+                        // 2.2 Continue to modify getUsers to use the closure. For all failures, call the completion closure with the correct DMError. For a success, call the completion closure with the array of User.
+                        // Using the completion handler if the function runs and there IS VALID !!!! DATA FROM THE SERVER per the description of the DM error enum
+                        //  Declare the function as you normally would and pass in the parameters ()
+                        // Within the parameters tap into the SUCCESS method using dot notation and within the SUCCESS method pass in THE SUCESSFUL DATA aka userResponse.data
+                        completion(.success(userResponse.data))
+                        
                         
                     } catch {
-                        print("Error decoding data: \(error)")
+                        // 2.2 Continue to modify getUsers to use the closure. For all failures, call the completion closure with the correct DMError. For a success, call the completion closure with the array of User.
+                        // Using the completion handler if the function runs and there are INVALID RESPONSE FROM THE SERVER (since as you see above we are handlign taks FOR A VALID RESPONSE from the server. per the description of the DM error enum
+                        //  Declare the function as you normally would and pass in the parameters ()
+                        // Within the parameters tap into the faulire method using dot notation and within the failure method pass in .invalidResponse -  case invalidResponse = "Invalid response from the server. Please try again."
+                        print("Error recvecing a retriving a reponse \(error)")
+                        completion(.failure(.invalidResponse))
                     }
                     
                 } else {
+                    // 2.2 Continue to modify getUsers to use the closure. For all failures, call the completion closure with the correct DMError. For a success, call the completion closure with the array of User.
+                    // Using the completion handler if the function runs and there are INVALID DATA FROM THE SERVER (since as you see above we are handlign taks FOR VALID DATA here (if let safeData = data). per the description of the DM error enum
+                    //  Declare the function as you normally would and pass in the parameters ()
+                    // Within the parameters tap into the faulire method using dot notation and within the failure method pass in .invalidData -  case invalidData = "The data received from the server was invalid. Please try again."
+                    completion(.failure(.invalidData))
                     return
                 }
                 

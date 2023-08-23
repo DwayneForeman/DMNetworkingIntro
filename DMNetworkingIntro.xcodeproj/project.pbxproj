@@ -78,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				63485F5C29E47CCE00961EA6 /* Constants.swift */,
+				1F5A03ED2A8C46C10012299F /* DMError.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -85,7 +86,6 @@
 		63485F5729E4797D00961EA6 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				1F5A03ED2A8C46C10012299F /* DMError.swift */,
 				63485F5E29E4800300961EA6 /* NetworkManager.swift */,
 			);
 			path = Managers;
